@@ -1,0 +1,1 @@
+﻿Get-ADOrganizationalUnit -Filter * -Property ProtectedFromAccidentalDeletion | Where{ $_.ProtectedFromAccidentalDeletion -eq $false } | Set-ADOrganizationalUnit -ProtectedFromAccidentalDeletion $true

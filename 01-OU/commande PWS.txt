@@ -1,0 +1,20 @@
+01/Creation des OU
+
+$var = Import-Csv "chemindu du csv\01-OU.csv"
+	foreach ($item in $var)
+	{
+	    New-ADOrganizationalUnit -Name $item.OUNAme -Path "CHEMIN du domaine"
+	    Write-Host "Creation de l'OU : " $item.OUNAme
+	}
+
+
+02/Suppression de la protection des OU
+
+Get-ADOrganizationalUnit -Filter * -Property ProtectedFromAccidentalDeletion | Where{ $_.ProtectedFromAccidentalDeletion -eq $true } | Set-ADOrganizationalUnit -ProtectedFromAccidentalDeletion $false
+
+
+03/Activation de la protection des OU
+
+Get-ADOrganizationalUnit -Filter * -Property ProtectedFromAccidentalDeletion | Where{ $_.ProtectedFromAccidentalDeletion -eq $false } | Set-ADOrganizationalUnit -ProtectedFromAccidentalDeletion $true
+
+
