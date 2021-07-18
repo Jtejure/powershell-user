@@ -1,0 +1,127 @@
+<?php
+exec('grep "ServerAdmin"  /etc/httpd/conf/httpd.conf | grep "admin@sitel.lan"', $output, $return);
+if ($return) {
+echo '<font color="red">Adresse de messagerie administrateur non renseignée!</font>';
+} else {
+echo '<font color="green">Adresse de messagerie administrateur correctement renseignée!</font>';
+}
+
+echo "</br></br>";
+
+exec('grep "/server-status"  /etc/httpd/conf/httpd.conf | grep -v "#"', $output, $return);
+if ($return) {
+echo '<font color="red">Page /server-status non activée!</font>';
+} else {
+echo '<font color="green">Page /server-status activée!</font>';
+}
+echo "</br>";
+exec("sed -n '/server-status/,/Location/p' /etc/httpd/conf/httpd.conf | grep -v 'Allow from all' | grep 'Allow from'", $output, $return);
+if ($return) {
+echo '<font color="red">Page /server-status non sécurisée!</font>';
+} else {
+echo '<font color="green">Page /server-status sécurisée!</font>';
+}
+
+echo "</br></br>";
+
+exec('grep "/server-info"  /etc/httpd/conf/httpd.conf | grep -v "#"', $output, $return);
+if ($return) {
+echo '<font color="red">Page /server-info non activée!</font>';
+} else {
+echo '<font color="green">Page /server-info activée!</font>';
+}
+echo "</br>";
+exec("sed -n '/server-info/,/Location/p' /etc/httpd/conf/httpd.conf | grep -v 'Allow from all' | grep 'Allow from'", $output, $return);
+if ($return) {
+echo '<font color="red">Page /server-info non sécurisée!</font>';
+} else {
+echo '<font color="green">Page /server-info sécurisée!</font>';
+}
+
+echo "</br></br>";
+
+exec('grep -i "ServerName" /etc/httpd/conf.d/site.conf', $output, $return);
+if ($return) {
+echo '<font color="red">Pas de ServerName trouvé!</font>';
+echo "</br>";
+}
+exec('grep -i "ServerName" /etc/httpd/conf.d/site.conf | wc -l', $output, $return);
+if ( $return >= 2 ) {
+echo '<font color="red">Trop de ServerName!</font>';
+echo "</br>";
+}
+
+exec('grep -i -e "ServerName sitel.lan" -e "ServerAlias sitel.lan" /etc/httpd/conf.d/site.conf', $output, $return);
+if ($return) {
+echo '<font color="red">Aucun alias sitel.lan trouvé!</font>';
+} else {
+echo '<font color="green">Alias sitel.lan trouvé!</font>';
+}
+echo "</br>";
+exec('grep -i -e "ServerName bs.lan" -e "ServerAlias bs.lan" /etc/httpd/conf.d/site.conf', $output, $return);
+if ($return) {
+echo '<font color="red">Aucun alias bs.lan trouvé!</font>';
+} else {
+echo '<font color="green">Alias bs.lan trouvé!</font>';
+}
+
+echo "</br></br>";
+
+exec('grep -i "DocumentRoot" | grep "/home/siteweb" /etc/httpd/conf.d/site.conf', $output, $return);
+if ($return) {
+echo '<font color="red">DocumentRoot incorrect!</font>';
+} else {
+echo '<font color="green">DocumentRoot correct!</font>';
+}
+echo "</br>";
+exec('grep -i "<Directory" | grep "/home/siteweb" /etc/httpd/conf.d/site.conf', $output, $return);
+if ($return) {
+echo '<font color="red">Pas de balise Directory trouvée pour /home/siteweb!</font>';
+} else {
+echo '<font color="green">Balise Directory trouvée pour /home/siteweb!</font>';
+}
+echo "</br>";
+exec('grep -i "DirectoryIndex" | grep "site.php" /etc/httpd/conf.d/site.conf', $output, $return);
+if ($return) {
+echo '<font color="red">DirectoryIndex incorrect!</font>';
+} else {
+echo '<font color="green">DirectoryIndex correct!</font>';
+}
+
+echo "</br></br>";
+
+exec('grep "CustomLog" /etc/httpd/conf.d/site.conf | grep "/home/siteweb/sitelogs"', $output, $return);
+if ($return) {
+echo '<font color="red">Directive pour access log non trouvée!</font>';
+} else {
+echo '<font color="green">Directive pour access log trouvée!</font>';
+}
+echo "</br>";
+exec('grep "ErrorLog" /etc/httpd/conf.d/site.conf | grep "/home/siteweb/sitelogs"', $output, $return);
+if ($return) {
+echo '<font color="red">Directive pour error log non trouvée!</font>';
+} else {
+echo '<font color="green">Directive pour error log trouvée!</font>';
+}
+echo "</br>";
+exec('grep -i "Alias /log" /etc/httpd/conf.d/site.conf', $output, $return);
+if ($return) {
+echo '<font color="red">Alias /log non trouvé!</font>';
+} else {
+echo '<font color="green">Alias /log trouvé!</font>';
+}
+echo "</br>";
+exec('grep -i "<Directory" | grep "/log" /etc/httpd/conf.d/site.conf', $output, $return);
+if ($return) {
+echo '<font color="red">Pas de balise Directory trouvée pour /log!</font>';
+} else {
+echo '<font color="green">Balise Directory trouvée pour /log!</font>';
+}
+echo "</br>";
+exec("sed -n '/sitelogs/,/\/Directory/p' /etc/httpd/conf.d/site.conf | grep -v 'Allow from all' | grep 'Allow from'", $output, $return);
+if ($return) {
+echo '<font color="red">Accès /log non sécurisé!</font>';
+} else {
+echo '<font color="green">Accès /log sécurisé!</font>';
+}
+?>

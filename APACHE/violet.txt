@@ -1,0 +1,8 @@
+<VirtualHost 172.16.69.243:80>
+        ServerAlias 69243.violet.fr 69243.violet.com 69243.violet.eu
+        DOCUMENTROOT "/home/SitesWeb/SiteViolet/"
+        DIRECTORYINDEX "IndexViolet.htm"
+        <DIRECTORY "/home/SitesWeb/SiteViolet/">
+                allow from all
+        </DIRECTORY>
+</VirtualHost>
